@@ -4,20 +4,20 @@ package huckster.cabinet.model;
  * Created by PerevalovaMA on 17.06.2016.
  */
 public class TwoLineChartEntity {
-    private int reportId;
+    private StatisticDataType type;
     private String period;
     private int value1;
     private int value2;
 
-    public TwoLineChartEntity(int reportId, String period, int value1, int value2) {
-        this.reportId = reportId;
+    public TwoLineChartEntity(StatisticDataType type, String period, int value1, int value2) {
+        this.type = type;
         this.period = period;
         this.value1 = value1;
         this.value2 = value2;
     }
 
-    public int getReportId() {
-        return reportId;
+    public StatisticDataType getType() {
+        return type;
     }
 
     public String getPeriod() {

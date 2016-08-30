@@ -21,14 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class OrdersController {
+public class OrdersController extends AuthController {
     private OrdersDao dao = new OrdersDao();
     private static final Logger LOG = LoggerFactory.getLogger(OrdersController.class);
 
     @RequestMapping("/orders")
-    public DataTable getOrders(@RequestParam(value = "date-from") String startDate,
-                               @RequestParam(value = "date-to") String endDate) {
-        int companyId = 1;
+    public DataTable getOrders(@RequestParam(value = "dateFrom", required = false) String startDate,
+                               @RequestParam(value = "dateTo", required = false) String endDate) {
+        int companyId = getCompanyId("token");
+
+        //TODO: check null parameters?
 
         List<OrderEntity> data = new ArrayList<>();
         try {

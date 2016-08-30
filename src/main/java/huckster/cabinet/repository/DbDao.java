@@ -25,9 +25,9 @@ public class DbDao {
     public DbDao() {
         try {
             InitialContext ctx = new InitialContext();
-            pool = (DataSource) ctx.lookup("java:comp/env/jdbc/huckster");
+            pool = (DataSource) ctx.lookup("java:comp/env/jdbc/huckster_api");
             if (pool == null) {
-                throw new ServletException("Unknown DataSource 'jdbc/huckster'");
+                throw new ServletException("Unknown DataSource 'jdbc/huckster_api'");
             }
         } catch (NamingException | ServletException ex) {
             LOG.error("Failed to create connection pool", ex);

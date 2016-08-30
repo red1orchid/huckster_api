@@ -33,7 +33,6 @@ public class DiscountEntity {
         this.id = id;
         this.articul = articul;
         this.name = name;
-        this.vendor = vendor;
         this.url = url;
         this.discount1 = discount1;
         this.discount2 = discount2;
@@ -47,7 +46,7 @@ public class DiscountEntity {
         return category;
     }
 
-    public int getCategoryId() { return categoryId; }
+    public Integer getCategoryId() { return categoryId; }
 
     public String getVendor() {
         return vendor;
