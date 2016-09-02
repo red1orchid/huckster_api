@@ -275,32 +275,26 @@ public class WidgetSettingsDao extends DbDao {
 
     public Map<Integer, List<String>> getVendorsByCategory(int companyId) throws SQLException {
         Map<Integer, List<String>> map = new HashMap<>();
-        String sql = "SELECT DISTINCT vendor, category_id" +
+        String sql = "SELECT DISTINCT category_id, vendor" +
                 "       FROM offers" +
                 "      WHERE company_id = ?" +
                 "        AND vendor IS NOT NULL" +
-                "      ORDER BY 1";
+                "      UNION ALL" +
+                "     SELECT DISTINCT null, vendor" +
+                "       FROM offers" +
+                "      WHERE company_id = ?" +
+                "        AND vendor IS NOT NULL" +
+                "      ORDER BY category_id, vendor";
 
-        execute(sql, 1000, (rs) -> {
-            map.putIfAbsent(rs.getInt("category_id"), new ArrayList<>());
-            map.get(rs.getInt("category_id")).add(rs.getString("vendor"));
-        }, companyId);
+        execute(sql, 1500, (rs) -> {
+            Integer categoryId = rs.getInt("category_id");
+            if (categoryId == 0) {
+                categoryId = null;
+            }
+            map.putIfAbsent(categoryId, new ArrayList<>());
+            map.get(categoryId).add(rs.getString("vendor"));
+        }, companyId, companyId);
         return map;
-    }
-
-    public List<String> getVendors(int companyId) throws SQLException {
-        List<String> vendors = new ArrayList<>();
-        String sql = "SELECT DISTINCT vendor" +
-                "       FROM offers" +
-                "      WHERE company_id = ?" +
-                "        AND vendor IS NOT NULL" +
-                "      ORDER BY 1";
-
-        execute(sql, 500, (rs) -> {
-            vendors.add(rs.getString("vendor"));
-        }, companyId);
-
-        return vendors;
     }
 
     public List<DiscountEntity> getOfferDiscounts(int companyId, int ruleId) throws SQLException {

@@ -1,7 +1,9 @@
 package huckster.cabinet.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import huckster.cabinet.model.DataTable;
 import huckster.cabinet.model.DiscountEntity;
+import huckster.cabinet.model.ListEntity;
 import huckster.cabinet.model.RuleEntity;
 import huckster.cabinet.repository.WidgetSettingsDao;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import java.util.Map;
  * Created by PerevalovaMA on 30.08.2016.
  */
 @RestController
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class WidgetSettingsController extends AuthController  {
     private WidgetSettingsDao dao = new WidgetSettingsDao();
     private static final Logger LOG = LoggerFactory.getLogger(OrdersController.class);
@@ -88,5 +91,26 @@ public class WidgetSettingsController extends AuthController  {
             LOG.error("Failed to load vendor_discounts for company " + companyId, e);
             return null;
         }
+    }
+
+    @RequestMapping("/widget_settings/vendor_discounts/lists")
+    public Map<String, Object> getVendorsDiscounts() {
+        int companyId = getCompanyId("token");
+
+        Map<String, Object> map = new HashMap<>();
+        Map<Integer, List<String>> vendors = new HashMap<>();
+        List<ListEntity<Integer, String>> categories = new ArrayList<>();
+        try {
+            vendors = dao.getVendorsByCategory(companyId);
+            categories = dao.getCategories(companyId);
+        } catch (SQLException e) {
+            //TODO: return error
+            LOG.error("Failed to load vendors and categories for company " + companyId, e);
+        }
+
+        map.put("vendors", vendors);
+        map.put("categories", categories);
+
+        return map;
     }
 }
