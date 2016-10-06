@@ -3,7 +3,7 @@ package huckster.cabinet.model;
 /**
  * Created by PerevalovaMA on 11.08.2016.
  */
-public class DiscountEntity {
+public class Discount {
     private int id;
     private Integer categoryId;
     private String category;
@@ -16,7 +16,7 @@ public class DiscountEntity {
     private String name;
     private String url;
 
-    public DiscountEntity(int id, int categoryId, String category, String vendor, int priceFrom, int priceTo, int discount1, int discount2) {
+    public Discount(int id, int categoryId, String category, String vendor, int priceFrom, int priceTo, int discount1, int discount2) {
         this.id = id;
         if (categoryId != 0) {
             this.categoryId = categoryId;
@@ -29,7 +29,7 @@ public class DiscountEntity {
         this.discount2 = discount2;
     }
 
-    public DiscountEntity(int id, String articul, String name, int discount1, int discount2, String url) {
+    public Discount(int id, String articul, String name, int discount1, int discount2, String url) {
         this.id = id;
         this.articul = articul;
         this.name = name;

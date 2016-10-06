@@ -1,7 +1,7 @@
 package huckster.cabinet.repository;
 
 import huckster.cabinet.model.StatisticDataType;
-import huckster.cabinet.model.TwoLineChartEntity;
+import huckster.cabinet.model.TwoLineChart;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class DashboardDao extends DbDao {
         return percents;
     }
 
-    public List<TwoLineChartEntity> getChartData(int companyId, String period) throws SQLException {
+    public List<TwoLineChart> getChartData(int companyId, String period) throws SQLException {
         HashMap<Integer, StatisticDataType> statisticPanelTypes = new HashMap<>();
         statisticPanelTypes.put(1, INCOME);
         statisticPanelTypes.put(2, ORDERS);
@@ -87,10 +87,10 @@ public class DashboardDao extends DbDao {
                 "    FOR metric IN ('curr' AS curr, 'last' AS last))" +
                 "ORDER BY report_id";
 
-        List<TwoLineChartEntity> chartData = new ArrayList<>();
+        List<TwoLineChart> chartData = new ArrayList<>();
 
         execute(sql, null, (rs) -> {
-            chartData.add(new TwoLineChartEntity(statisticPanelTypes.get(rs.getInt("report_id")), rs.getString("period"), rs.getInt("curr"), rs.getInt("last")));
+            chartData.add(new TwoLineChart(statisticPanelTypes.get(rs.getInt("report_id")), rs.getString("period"), rs.getInt("curr"), rs.getInt("last")));
         }, companyId, period);
         return chartData;
     }

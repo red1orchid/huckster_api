@@ -1,9 +1,9 @@
 package huckster.cabinet.repository;
 
-import huckster.cabinet.model.DiscountEntity;
-import huckster.cabinet.model.ListEntity;
-import huckster.cabinet.model.RuleEntity;
-import huckster.cabinet.model.SelectedTreeEntity;
+import huckster.cabinet.model.Discount;
+import huckster.cabinet.dto.ListEntity;
+import huckster.cabinet.model.Rule;
+import huckster.cabinet.model.SelectedTree;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -12,8 +12,8 @@ import java.util.*;
  * Created by PerevalovaMA on 04.08.2016.
  */
 public class WidgetSettingsDao extends DbDao {
-    public List<RuleEntity> getRules(int companyId) throws SQLException {
-        List<RuleEntity> list = new ArrayList<>();
+    public List<Rule> getRules(int companyId) throws SQLException {
+        List<Rule> list = new ArrayList<>();
         String sql = "SELECT r.id AS empno," +
                 "            replace(nvl(r.utm_medium,'все'), 'all', 'все') AS utm_medium," +
                 "            replace(nvl(r.utm_source,'все'), 'all', 'все') AS utm_source," +
@@ -27,7 +27,7 @@ public class WidgetSettingsDao extends DbDao {
 
         Map<Integer, String> devices = getDevices();
         execute(sql, null,
-                (rs) -> list.add(new RuleEntity(rs.getInt("empno"), rs.getString("utm_medium"), rs.getString("utm_source"), rs.getInt("destination"),
+                (rs) -> list.add(new Rule(rs.getInt("empno"), rs.getString("utm_medium"), rs.getString("utm_source"), rs.getInt("destination"),
                         devices.get(rs.getInt("destination")), rs.getString("days"), rs.getInt("start_hour"), rs.getInt("end_hour"))), companyId);
         return list;
     }
@@ -153,8 +153,8 @@ public class WidgetSettingsDao extends DbDao {
         return sources;
     }
 
-    public List<SelectedTreeEntity> getSelectedTree(Integer ruleId) throws SQLException {
-        List<SelectedTreeEntity> list = new ArrayList<>();
+    public List<SelectedTree> getSelectedTree(Integer ruleId) throws SQLException {
+        List<SelectedTree> list = new ArrayList<>();
         String sql = "SELECT t.id," +
                 "     title," +
                 "     parent_id," +
@@ -163,18 +163,18 @@ public class WidgetSettingsDao extends DbDao {
                 "         AND (geo LIKE '%:' || t.id || ':%' OR geo LIKE '%:' || t.id OR geo LIKE t.id || ':%')) AS is_selected " +
                 "FROM cidr_tree t";
         execute(sql, 1000,
-                (rs) -> list.add(new SelectedTreeEntity(rs.getInt("id"), rs.getString("title"), rs.getInt("parent_id"), rs.getInt("is_selected") == 1))
+                (rs) -> list.add(new SelectedTree(rs.getInt("id"), rs.getString("title"), rs.getInt("parent_id"), rs.getInt("is_selected") == 1))
                 , ruleId);
 
         return list;
     }
 
-    public List<SelectedTreeEntity> getSelectedTree() throws SQLException {
-        List<SelectedTreeEntity> list = new ArrayList<>();
+    public List<SelectedTree> getSelectedTree() throws SQLException {
+        List<SelectedTree> list = new ArrayList<>();
         String sql = " SELECT id, title, parent_id, 0 AS is_selected" +
                 "      FROM cidr_tree";
         execute(sql, 1000,
-                (rs) -> list.add(new SelectedTreeEntity(rs.getInt("id"), rs.getString("title"), rs.getInt("parent_id"), rs.getInt("is_selected") == 1)));
+                (rs) -> list.add(new SelectedTree(rs.getInt("id"), rs.getString("title"), rs.getInt("parent_id"), rs.getInt("is_selected") == 1)));
         return list;
     }
 
@@ -204,8 +204,8 @@ public class WidgetSettingsDao extends DbDao {
         return rules;
     }
 
-    public List<DiscountEntity> getVendorsDiscounts(int companyId, int ruleId) throws SQLException {
-        List<DiscountEntity> discounts = new ArrayList<>();
+    public List<Discount> getVendorsDiscounts(int companyId, int ruleId) throws SQLException {
+        List<Discount> discounts = new ArrayList<>();
         String sql = "SELECT id," +
                 "            category_id," +
                 "            NVL((SELECT category_id || ' - ' || NAME" +
@@ -224,7 +224,7 @@ public class WidgetSettingsDao extends DbDao {
                 "      ORDER BY category DESC, vendors DESC";
 
         execute(sql, 100, (rs) -> {
-            discounts.add(new DiscountEntity(rs.getInt("id"), rs.getInt("category_id"), rs.getString("category"), rs.getString("vendors"), rs.getInt("min_price"), rs.getInt("max_price"),
+            discounts.add(new Discount(rs.getInt("id"), rs.getInt("category_id"), rs.getString("category"), rs.getString("vendors"), rs.getInt("min_price"), rs.getInt("max_price"),
                     rs.getInt("step1"), rs.getInt("step2")));
         }, companyId, ruleId);
 
@@ -297,8 +297,8 @@ public class WidgetSettingsDao extends DbDao {
         return map;
     }
 
-    public List<DiscountEntity> getOfferDiscounts(int companyId, int ruleId) throws SQLException {
-        List<DiscountEntity> discounts = new ArrayList<>();
+    public List<Discount> getOfferDiscounts(int companyId, int ruleId) throws SQLException {
+        List<Discount> discounts = new ArrayList<>();
         String sql = "SELECT d.id," +
                 "            d.offer_id," +
                 "            f.name," +
@@ -315,7 +315,7 @@ public class WidgetSettingsDao extends DbDao {
                 "      ORDER BY d.atime DESC";
 
         execute(sql, 100, (rs) -> {
-            discounts.add(new DiscountEntity(rs.getInt("id"), rs.getString("offer_id"), rs.getString("name"), rs.getInt("step1"), rs.getInt("step2"), rs.getString("url")));
+            discounts.add(new Discount(rs.getInt("id"), rs.getString("offer_id"), rs.getString("name"), rs.getInt("step1"), rs.getInt("step2"), rs.getString("url")));
         }, companyId, ruleId);
 
         return discounts;

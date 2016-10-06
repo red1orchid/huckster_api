@@ -3,7 +3,7 @@ package huckster.cabinet.model;
 /**
  * Created by PerevalovaMA on 12.08.2016.
  */
-public class CompanySettingsEntity {
+public class CompanySettings {
     private int companyId;
     private String yml;
     private String orderEmails;
@@ -11,7 +11,7 @@ public class CompanySettingsEntity {
     private String yandexKey;
     private int isActive;
 
-    public CompanySettingsEntity(int companyId, String yml, String orderEmails, String contactEmails, String yandexKey, int isActive) {
+    public CompanySettings(int companyId, String yml, String orderEmails, String contactEmails, String yandexKey, int isActive) {
         this.companyId = companyId;
         this.yml = yml;
         this.orderEmails = orderEmails;

@@ -1,4 +1,4 @@
-package huckster.cabinet.model;
+package huckster.cabinet.dto;
 
 import java.util.ArrayList;
 

@@ -3,7 +3,7 @@ package huckster.cabinet.model;
 /**
  * Created by PerevalovaMA on 17.05.2016.
  */
-public class OrderEntity {
+public class OrderItems {
     private int id;
     private int ruleId;
     private String articul;
@@ -20,7 +20,7 @@ public class OrderEntity {
     private String statusTitle;
     private String comment;
 
-    public OrderEntity(int id, int ruleId, String articul, String vendorCode, String model, Double basePrice, Double resultPrice, int discount, String phone, String city, String creationDate, String phrase, int status, String statusTitle, String comment) {
+    public OrderItems(int id, int ruleId, String articul, String vendorCode, String model, Double basePrice, Double resultPrice, int discount, String phone, String city, String creationDate, String phrase, int status, String statusTitle, String comment) {
         this.id = id;
         this.ruleId = ruleId;
         this.articul = articul;

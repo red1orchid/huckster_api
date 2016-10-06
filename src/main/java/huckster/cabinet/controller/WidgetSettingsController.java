@@ -1,10 +1,10 @@
 package huckster.cabinet.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import huckster.cabinet.model.DataTable;
-import huckster.cabinet.model.DiscountEntity;
-import huckster.cabinet.model.ListEntity;
-import huckster.cabinet.model.RuleEntity;
+import huckster.cabinet.dto.DataTable;
+import huckster.cabinet.model.Discount;
+import huckster.cabinet.dto.ListEntity;
+import huckster.cabinet.model.Rule;
 import huckster.cabinet.repository.WidgetSettingsDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +23,15 @@ import java.util.Map;
  */
 @RestController
 @JsonInclude(JsonInclude.Include.ALWAYS)
-public class WidgetSettingsController extends AuthController  {
+public class WidgetSettingsController {
     private WidgetSettingsDao dao = new WidgetSettingsDao();
     private static final Logger LOG = LoggerFactory.getLogger(OrdersController.class);
 
     @RequestMapping("/widget_settings/segments/rules")
     public DataTable getRules() {
-        int companyId = getCompanyId("token");
+        int companyId = Auth.getCompanyId("token");
 
-        List<RuleEntity> data = new ArrayList<>();
+        List<Rule> data = new ArrayList<>();
         try {
             data = dao.getRules(companyId);
         } catch (SQLException e) {
@@ -44,7 +44,7 @@ public class WidgetSettingsController extends AuthController  {
 
     @RequestMapping("/widget_settings/segments/lists")
     public Map<String, Object> getLists() {
-        int companyId = getCompanyId("token");
+        int companyId = Auth.getCompanyId("token");
 
         Map<String, Object> map = new HashMap<>();
         List<String> channels = new ArrayList<>();
@@ -69,7 +69,7 @@ public class WidgetSettingsController extends AuthController  {
 
     @RequestMapping("/widget_settings/discounts/segments")
     public Map<Integer, String> getSegments() {
-        int companyId = getCompanyId("token");
+        int companyId = Auth.getCompanyId("token");
 
         try {
             return dao.getSegments(companyId);
@@ -81,8 +81,8 @@ public class WidgetSettingsController extends AuthController  {
     }
 
     @RequestMapping("/widget_settings/vendor_discounts")
-    public List<DiscountEntity> getVendorsDiscounts(@RequestParam(value = "segmentId") int ruleId) {
-        int companyId = getCompanyId("token");
+    public List<Discount> getVendorsDiscounts(@RequestParam(value = "segmentId") int ruleId) {
+        int companyId = Auth.getCompanyId("token");
 
         try {
             return dao.getVendorsDiscounts(companyId, ruleId);
@@ -95,7 +95,7 @@ public class WidgetSettingsController extends AuthController  {
 
     @RequestMapping("/widget_settings/vendor_discounts/lists")
     public Map<String, Object> getVendorsDiscounts() {
-        int companyId = getCompanyId("token");
+        int companyId = Auth.getCompanyId("token");
 
         Map<String, Object> map = new HashMap<>();
         Map<Integer, List<String>> vendors = new HashMap<>();

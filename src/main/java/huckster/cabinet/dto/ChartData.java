@@ -1,4 +1,7 @@
-package huckster.cabinet.model;
+package huckster.cabinet.dto;
+
+import huckster.cabinet.model.StatisticDataType;
+import huckster.cabinet.model.TwoLineChart;
 
 import java.util.*;
 
@@ -17,10 +20,10 @@ public class ChartData {
         this.yMin = yMin;
     }
 
-    public static EnumMap<StatisticDataType, ChartData> makeData(List<TwoLineChartEntity> list, String line1Name, String line2Name) {
+    public static EnumMap<StatisticDataType, ChartData> makeData(List<TwoLineChart> list, String line1Name, String line2Name) {
         EnumMap<StatisticDataType, ChartData> reportsChartData = new EnumMap<>(StatisticDataType.class);
 
-        for (TwoLineChartEntity entity : list) {
+        for (TwoLineChart entity : list) {
             ChartData chartData = reportsChartData.get(entity.getType());
             if (chartData == null) {
                 chartData = new ChartData();

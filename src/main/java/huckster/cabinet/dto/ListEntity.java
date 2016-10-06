@@ -1,4 +1,4 @@
-package huckster.cabinet.model;
+package huckster.cabinet.dto;
 
 /**
  * Created by PerevalovaMA on 10.08.2016.

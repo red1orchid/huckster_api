@@ -3,13 +3,13 @@ package huckster.cabinet.model;
 /**
  * Created by PerevalovaMA on 17.06.2016.
  */
-public class SelectedTreeEntity {
+public class SelectedTree {
     int id;
     String title;
     int parentId;
     boolean isSelected;
 
-    public SelectedTreeEntity(int id, String title, int parentId, boolean isSelected) {
+    public SelectedTree(int id, String title, int parentId, boolean isSelected) {
         this.id = id;
         this.title = title;
         this.parentId = parentId;

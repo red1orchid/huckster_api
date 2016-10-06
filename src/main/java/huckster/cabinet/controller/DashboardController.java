@@ -1,9 +1,9 @@
 package huckster.cabinet.controller;
 
-import huckster.cabinet.model.ChartData;
+import huckster.cabinet.dto.ChartData;
 import huckster.cabinet.model.StatisticDataEntity;
 import huckster.cabinet.model.StatisticDataType;
-import huckster.cabinet.model.TwoLineChartEntity;
+import huckster.cabinet.model.TwoLineChart;
 import huckster.cabinet.repository.DashboardDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,13 @@ import java.util.List;
  * Created by PerevalovaMA on 30.08.2016.
  */
 @RestController
-public class DashboardController extends AuthController {
+public class DashboardController {
     private DashboardDao dao = new DashboardDao();
     private static final Logger LOG = LoggerFactory.getLogger(DashboardController.class);
 
     @RequestMapping("/dashboard")
     public EnumMap<StatisticDataType, StatisticDataEntity> getStatisticData(@RequestParam(value = "period") String period) {
-        int companyId = getCompanyId("token");
+        int companyId = Auth.getCompanyId("token");
 
         //TODO: check null parameters?
 
@@ -54,10 +54,9 @@ public class DashboardController extends AuthController {
     }
 
     private EnumMap<StatisticDataType, ChartData> getCharts(int companyId, String period) throws SQLException {
-        List<TwoLineChartEntity> chartRawData = dao.getChartData(companyId, period);
+        List<TwoLineChart> chartRawData = dao.getChartData(companyId, period);
         EnumMap<StatisticDataType, ChartData> charts = ChartData.makeData(chartRawData, ".current", ".last");
-        charts.values().stream()
-                .forEach(v -> v.setProperties("time", "linear", 0));
+        charts.forEach((k, v) -> v.setProperties("time", "linear", 0));
 
         return charts;
     }

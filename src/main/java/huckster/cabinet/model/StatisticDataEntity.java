@@ -1,5 +1,7 @@
 package huckster.cabinet.model;
 
+import huckster.cabinet.dto.ChartData;
+
 /**
  * Created by PerevalovaMA on 30.08.2016.
  */

@@ -1,7 +1,7 @@
 package huckster.cabinet.repository;
 
-import huckster.cabinet.model.CompanySettingsEntity;
-import huckster.cabinet.model.UrlEntity;
+import huckster.cabinet.model.CompanySettings;
+import huckster.cabinet.model.BlockedUrl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ import java.util.Optional;
  * Created by PerevalovaMA on 12.08.2016.
  */
 public class SettingsDao extends DbDao {
-    public Optional<CompanySettingsEntity> getCompanySettings(int companyId) throws SQLException {
+    public Optional<CompanySettings> getCompanySettings(int companyId) throws SQLException {
         String sql = "SELECT feed_url, mailto, mailto_admin, metric_key, is_manual_enable" +
                 "       FROM companies" +
                 "      WHERE company_id = ?";
 
         return selectValue(sql, null, (rs) ->
-                        new CompanySettingsEntity(companyId, rs.getString("feed_url"), rs.getString("mailto"), rs.getString("mailto_admin"),
+                        new CompanySettings(companyId, rs.getString("feed_url"), rs.getString("mailto"), rs.getString("mailto_admin"),
                                 rs.getString("metric_key"), rs.getInt("is_manual_enable"))
                 , companyId);
     }
@@ -35,8 +35,8 @@ public class SettingsDao extends DbDao {
         executeUpdate(sql, yml, orderEmails, contactEmails, yandexKey, isActive, companyId);
     }
 
-    public List<UrlEntity> getBlockedUrls(int companyId) throws SQLException {
-        List<UrlEntity> list = new ArrayList<>();
+    public List<BlockedUrl> getBlockedUrls(int companyId) throws SQLException {
+        List<BlockedUrl> list = new ArrayList<>();
         String sql = "SELECT id," +
                 "            regexp_replace(url, '^(http://|https://)|(www.)|(\\\\?\\\\S+)|(/$)') AS url," +
                 "            is_basket," +
@@ -45,7 +45,7 @@ public class SettingsDao extends DbDao {
                 "      WHERE company_id = ?" +
                 "      ORDER BY ID DESC";
 
-        execute(sql, null, (rs) -> list.add(new UrlEntity(rs.getInt("id"), rs.getString("url"), rs.getInt("is_basket"), rs.getString("ctime")))
+        execute(sql, null, (rs) -> list.add(new BlockedUrl(rs.getInt("id"), rs.getString("url"), rs.getInt("is_basket"), rs.getString("ctime")))
                 , companyId);
 
         return list;
