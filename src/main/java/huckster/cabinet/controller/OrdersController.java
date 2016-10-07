@@ -32,12 +32,12 @@ public class OrdersController {
         int companyId = Auth.getCompanyId("token");
 
         //TODO: check null parameters?
-        List<OrderItems> data = new ArrayList<>();
+        List<OrderItems> data;
         try {
             data = dao.getOrderItems(companyId, Date.valueOf(startDate), Date.valueOf(endDate));
         } catch (SQLException e) {
-            //TODO: some message?
             LOG.error("Failed to load orders for company " + companyId, e);
+            throw new InternalErrorException();
         }
 
         return new DataTable<>(data);
@@ -45,7 +45,13 @@ public class OrdersController {
 
     @RequestMapping("/orders")
     public Orders getOrders(@RequestParam(value = "token") String token,
-                            @RequestParam(value = "hours") int hours) throws SQLException {
-        return new Orders(dao.getOrders(Auth.getCompanyIdForOrders(token), hours));
+                            @RequestParam(value = "hours") int hours) {
+        int companyId = Auth.getCompanyIdForOrders(token);
+        try {
+            return new Orders(dao.getOrders(companyId, hours));
+        } catch (SQLException e) {
+            LOG.error("Client api: Failed to load orders for company " + companyId, e);
+            throw new InternalErrorException();
+        }
     }
 }

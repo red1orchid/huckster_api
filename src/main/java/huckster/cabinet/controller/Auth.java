@@ -1,6 +1,6 @@
 package huckster.cabinet.controller;
 
-import huckster.cabinet.repository.CompanyInfoDao;
+import huckster.cabinet.repository.CompanyDao;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -10,13 +10,13 @@ import java.util.Map;
  */
 abstract class Auth {
     private static Map<String, Integer> orderTokens;
-    private static CompanyInfoDao dao = new CompanyInfoDao();
+    private static CompanyDao dao = new CompanyDao();
 
     static {
         try {
             orderTokens = dao.getOrderTokens();
         } catch (SQLException e) {
-            throw new ServiceUnavailableException();
+            throw new InternalErrorException();
         }
     }
 

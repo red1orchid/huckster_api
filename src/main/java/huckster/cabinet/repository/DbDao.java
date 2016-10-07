@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 public class DbDao {
     private static final Logger LOG = LoggerFactory.getLogger(DbDao.class);
-    private DataSource pool;
+    protected DataSource pool;
 
     public DbDao() {
         try {

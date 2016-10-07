@@ -45,7 +45,6 @@ public class DashboardController {
                 data.setPercent(percents.get(type));
                 data.setChart(charts.get(type));
             }
-            System.out.println("dfd");
         } catch (SQLException e) {
             LOG.error("Failed to load statistic data for company " + companyId, e);
         }
