@@ -67,7 +67,7 @@ public class OrdersDao extends DbDao {
                 "      ORDER BY id DESC";
 
         execute(sql, 500, (rs) ->
-                        orders.put(rs.getInt("id"), new Order(rs.getInt("id"), rs.getString("phone"), rs.getInt("client_id"),
+                        orders.put(rs.getInt("id"), new Order(rs.getInt("id"), rs.getString("phone"), rs.getString("client_id"),
                                 rs.getString("ctime"), rs.getFloat("total_price"), rs.getString("utm_medium"), rs.getString("utm_source"),
                                 rs.getString("utm_campaign"), rs.getString("referrer"), rs.getString("city"), rs.getInt("is_mobile")))
                 , companyId, hours);

@@ -6,7 +6,6 @@ package huckster.cabinet.controller;
 
 import huckster.cabinet.dto.DataTable;
 import huckster.cabinet.dto.Orders;
-import huckster.cabinet.model.Order;
 import huckster.cabinet.model.OrderItems;
 import huckster.cabinet.repository.OrdersDao;
 import org.slf4j.Logger;
@@ -15,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.annotation.XmlElementWrapper;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

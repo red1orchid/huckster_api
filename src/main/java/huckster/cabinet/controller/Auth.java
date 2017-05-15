@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Perevalova Marina on 28.08.2016.
  */
-abstract class Auth {
+class Auth {
     private static Map<String, Integer> orderTokens;
     private static CompanyDao dao = new CompanyDao();
 

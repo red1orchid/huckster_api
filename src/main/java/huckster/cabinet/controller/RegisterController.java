@@ -20,7 +20,7 @@ public class RegisterController {
     @RequestMapping(value="/site/reg", method= RequestMethod.POST)
     public String registerCompany(@RequestBody NewCompany company, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();
-        if (!ipAddress.equals("127.0.0.1")) {
+        if (!ipAddress.equals("87.236.20.94")) {
             throw new UnauthorizedException();
         } else {
             try {

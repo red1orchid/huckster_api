@@ -18,7 +18,7 @@ public class Order {
     @XmlElement(name = "PHONE")
     private String phone;
     @XmlElement(name = "CLIENT_ID")
-    private int clientId;
+    private String clientId;
     @XmlElement(name = "CTIME")
     private String creationTime;
     @XmlElement(name = "TOTAL_PRICE")
@@ -41,7 +41,7 @@ public class Order {
 
     public Order() {};
 
-    public Order(int id, String phone, int clientId, String creationTime, float totalPrice, String utmMedium, String utmSource, String utmCampaign, String referrer, String city, int isMobile) {
+    public Order(int id, String phone, String clientId, String creationTime, float totalPrice, String utmMedium, String utmSource, String utmCampaign, String referrer, String city, int isMobile) {
         this.id = id;
         this.phone = phone;
         this.clientId = clientId;
