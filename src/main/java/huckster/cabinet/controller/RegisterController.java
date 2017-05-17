@@ -17,10 +17,12 @@ public class RegisterController {
     private CompanyDao companyDao = new CompanyDao();
     private static final Logger LOG = LoggerFactory.getLogger(RegisterController.class);
 
-    @RequestMapping(value="/site/reg", method= RequestMethod.POST)
+    @CrossOrigin(origins = {"http://hucksterbot.com","http://hucksterbot.ru"})
+    @RequestMapping(value="/site/reg", method=RequestMethod.POST)
     public String registerCompany(@RequestBody NewCompany company, HttpServletRequest request) {
-        String ipAddress = request.getRemoteAddr();
-        if (!ipAddress.equals("87.236.20.94")) {
+        String origin = request.getHeader("Origin");
+        if (origin == null) {
+            LOG.error("Direct api calls are not allowed");
             throw new UnauthorizedException();
         } else {
             try {
